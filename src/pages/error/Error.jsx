@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Error404s = () => {
+const Error404 = () => {
   return (
-    <div>Error404s</div>
+    <div>No page found</div>
   )
 }
 
-export default Error404s
+export default Error404
