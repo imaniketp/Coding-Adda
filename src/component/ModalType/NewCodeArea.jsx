@@ -1,36 +1,47 @@
-import React from 'react'
-import { Header, Heading } from '../Modal'
-import {IoCloseSharp} from 'react-icons/io5'
-import styled from 'styled-components'
+import React from "react";
+import { Header, Heading } from "../Modal";
+import { IoCloseSharp } from "react-icons/io5";
+import styled from "styled-components";
+import { ModalArea } from "./NewFolder";
 
+const ModalInputs = styled.div`
+  display: flex;
+  input {
+    width: 15rem;
+    height: 2rem;
+    margin-right: 1rem;
+  }
+`;
 
 const Button = styled.button`
-  float: right;
   background: black;
   color: white;
-
-`
+  height: 2rem;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  border-radius: 2px;
+`;
 
 const NewCodeArea = () => {
   return (
-    <>
-      <IoCloseSharp style={{float: 'right'}}/>
+    <ModalArea>
+      <IoCloseSharp style={{ float: "right" }} />
 
-    <Header>
-      <Heading>Create New CodeArea</Heading>
-      
-    </Header>
-            
-      <p>Create New CodeArea :<input type='text' /></p>    
-      <select>
-          <option value="c++" >C++</option>
-          <option value="javascript" >JavaScript</option>
-          <option value="java" >Java</option>
-          <option value="python" >Python</option>
-      </select>
-      <Button style={{float: 'right'}}>Create New Playground</Button>
-    </>
-  )
-}
+      <Header>
+        <Heading>Create New CodeArea</Heading>
+      </Header>
+      <ModalInputs>
+        <input type="text" placeholder="Create New CodeArea" />
+        <select>
+          <option value="c++">C++</option>
+          <option value="javascript">JavaScript</option>
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+        </select>
+      </ModalInputs>
+      <Button>Create New CodeArea</Button>
+    </ModalArea>
+  );
+};
 
-export default NewCodeArea
+export default NewCodeArea;

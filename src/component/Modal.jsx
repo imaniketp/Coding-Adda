@@ -15,12 +15,11 @@ const ModalContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-`
-const ModalContent = styled.div`
+    `
+    const ModalContent = styled.div`
     background-color: #fff;
-    padding: 0.5rem;
+    padding: 1rem;
     border-radius: 5px;
-
 `
 
 export const Header = styled.div`
@@ -41,7 +40,7 @@ export const Heading = styled.h3`
 
 const Modal = () => {
   
-const type = 1;
+const type = 3;
 
   return (
     <ModalContainer>
