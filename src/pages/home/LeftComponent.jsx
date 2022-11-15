@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import styled from 'styled-components'
+import { ModalContext } from '../../context/ModelContext'
 
 
 const StyledLeftComponent = styled.div`
@@ -54,13 +55,16 @@ const AddPlayground = styled.button`
 `
 
 const LeftComponent = () => {
+
+const {setModal} = useContext(ModalContext);
+
   return (
     <StyledLeftComponent>
         <ContentContainer>
             <Logo src='logo.png' alt='logo' />
             <MainHeading> <span>Coding</span> Adda</MainHeading>
             <SubHeading>Code.Compile..Debug...</SubHeading>
-            <AddPlayground><span>+</span> Create New CodeArea</AddPlayground>
+            <AddPlayground onClick={() => setModal(true, 3)} ><span>+</span> Create New CodeArea</AddPlayground>
         </ContentContainer>
     </StyledLeftComponent>
   )

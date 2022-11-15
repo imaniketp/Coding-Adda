@@ -1,6 +1,7 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import styled from 'styled-components'
-import { NewFolder, NewCodeArea, NewCodeAreaAndFolder } from './ModalType'
+import { NewFolder, NewCodeArea, NewCodeAreaAndFolder, EditFolder, EditCodeAreaTitle } from './ModalType'
+import { ModalContext } from '../context/ModelContext'
 
 
 const ModalContainer = styled.div`
@@ -39,15 +40,16 @@ export const Heading = styled.h3`
 `;
 
 const Modal = () => {
-  
-const type = 3;
+  const { modalType } = useContext(ModalContext);
 
   return (
     <ModalContainer>
         <ModalContent>
-          {type === 1 && <NewFolder />}
-          {type === 2 && <NewCodeArea />}
-          {type === 3 && <NewCodeAreaAndFolder />}
+          {modalType === 1 && <NewFolder />}
+          {modalType === 2 && <NewCodeArea />}
+          {modalType === 3 && <NewCodeAreaAndFolder />}
+          {modalType === 4 && <EditFolder />}
+          {modalType === 5 && <EditCodeAreaTitle />}
 
         </ModalContent>
 

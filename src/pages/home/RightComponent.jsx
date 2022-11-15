@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useContext} from "react";
 import styled from "styled-components";
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
+import { ModalContext } from "../../context/ModelContext";
 
 const StyledRightComponent = styled.div`
   width: 60%;
@@ -81,13 +82,15 @@ const Logo = styled.img`
 `;
 
 const RightComponent = () => {
+
+  const {setModal} = useContext(ModalContext);
   return (
     <StyledRightComponent>
       <Header>
         <Heading size="large">
           My<span> CodeArea</span>
         </Heading>
-        <AddFolder>
+        <AddFolder onClick={() => setModal(true, 1)}>
           <span>+</span> New Folder
         </AddFolder>
       </Header>
@@ -100,8 +103,8 @@ const RightComponent = () => {
           <Heading size="small">Folder Name</Heading>
           <FolderIcons>
             <IoTrashOutline />
-            <BiEditAlt />
-            <AddFolder>
+            <BiEditAlt onClick={() => setModal(true, 4)}/>
+            <AddFolder onClick={() => setModal(true, 2)}>
               <span>+</span> New CodeArea
             </AddFolder>
           </FolderIcons>
@@ -122,7 +125,7 @@ const RightComponent = () => {
           </CardContainer>
           <FolderIcons>
             <IoTrashOutline />
-            <BiEditAlt />
+            <BiEditAlt onClick={() => setModal(true, 5)}/>
           </FolderIcons>
         </Card>
           ))

@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import styled from 'styled-components'
 import LeftComponent from './LeftComponent'
 import RightComponent from './RightComponent'
 import Modal from '../../component/Modal'
+import { ModalContext } from '../../context/ModelContext'
 
 
 const StyledHome = styled.div`
@@ -11,12 +12,14 @@ const StyledHome = styled.div`
 `
 
 const Home = () => {
-  const isOpenModal = true;
+  
+const {isOpenModal} = useContext(ModalContext);
+
   return (
     <StyledHome>
       <LeftComponent />
       <RightComponent />
-      { isOpenModal  && <Modal />}
+      { isOpenModal  && <Modal  />}
     </StyledHome>
   )
 }

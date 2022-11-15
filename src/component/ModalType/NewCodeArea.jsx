@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Header, Heading } from "../Modal";
 import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { ModalArea } from "./NewFolder";
+import { ModalContext } from "../../context/ModelContext";
 
 const ModalInputs = styled.div`
   display: flex;
@@ -23,9 +24,12 @@ const Button = styled.button`
 `;
 
 const NewCodeArea = () => {
+
+const {setIsOpenModal} = useContext(ModalContext);
+
   return (
     <ModalArea>
-      <IoCloseSharp style={{ float: "right" }} />
+      <IoCloseSharp style={{ float: "right" }} onClick={()=> setIsOpenModal(false)} />
 
       <Header>
         <Heading>Create New CodeArea</Heading>
