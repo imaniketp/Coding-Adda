@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
 import { ModalContext } from "../../context/ModelContext";
+import {CodeAreaContext} from "../../context/CodeAreaContext";
+import { useNavigate } from 'react-router-dom'
 
 const StyledRightComponent = styled.div`
   width: 60%;
@@ -29,18 +31,20 @@ const Heading = styled.h3`
   }
 `;
 
-const AddFolder = styled.div`
-  border-radius: 30px;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  span {
-    font-size: 1.7rem;
-    font-weight: 700;
-  }
+const AddButton = styled.div`
+    font-size: 1rem;
+    border-radius: 30px;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    span{
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    &:hover{
+        cursor: pointer;
+    }
 `;
 
 const FolderCard = styled.div`
@@ -83,61 +87,91 @@ const Logo = styled.img`
 
 const RightComponent = () => {
 
-  const {setModal} = useContext(ModalContext);
+  const navigate = useNavigate();
+
+  const { openModal } = useContext(ModalContext);
+  const { folders, deleteFolder, deleteCard } = useContext(CodeAreaContext);
+
+
   return (
     <StyledRightComponent>
-      <Header>
-        <Heading size="large">
-          My<span> CodeArea</span>
-        </Heading>
-        <AddFolder onClick={() => setModal(true, 1)}>
-          <span>+</span> New Folder
-        </AddFolder>
-      </Header>
-      <hr />
+    <Header>
+      <Heading size="large">
+        My <span>CodeArea</span>
+      </Heading>
+      <AddButton onClick={() => openModal({
+        show: true,
+        modalType: 1,
+        identifiers: {
+          folderId: "",
+          cardId: "",
+        }
+      })}> <span>+</span> New Folder</AddButton>
+    </Header>
+    <hr />
 
     {
-      Array.from({ length: 4}).map(() => (
-        <FolderCard>
-        <Header>
-          <Heading size="small">Folder Name</Heading>
-          <FolderIcons>
-            <IoTrashOutline />
-            <BiEditAlt onClick={() => setModal(true, 4)}/>
-            <AddFolder onClick={() => setModal(true, 2)}>
-              <span>+</span> New CodeArea
-            </AddFolder>
-          </FolderIcons>
-        </Header>
+      Object.entries(folders).map(([folderId, folder]) => (
+        <FolderCard key={folderId}>
+          <Header>
+            <Heading size="small">
+              {folder.title}
+            </Heading>
+            <FolderIcons>
+              <IoTrashOutline onClick={() => deleteFolder(folderId)} />
+              <BiEditAlt onClick={() => openModal({
+                show: true,
+                modalType: 4,
+                identifiers: {
+                  folderId: folderId,
+                  cardId: "",
+                }
+              })} />
+              <AddButton onClick={() => openModal({
+                show: true,
+                modalType: 2,
+                identifiers: {
+                  folderId: folderId,
+                  cardId: "",
+                }
+              })}><span>+</span> New CodeArea</AddButton>
+            </FolderIcons>
+          </Header>
 
-
-      <CodeAreaCards>
-
-        {
-          Array.from({ length: 4}).map(() => (
-            <Card>
-          <CardContainer>
-            <Logo src="logo-small.png" alt="logo" />
-            <CardContent>
-              <p>CodeArea Name</p>
-              <p>Language: C++</p>
-            </CardContent>
-          </CardContainer>
-          <FolderIcons>
-            <IoTrashOutline />
-            <BiEditAlt onClick={() => setModal(true, 5)}/>
-          </FolderIcons>
-        </Card>
-          ))
-        }
-       
-     </CodeAreaCards>
-
-      </FolderCard>
+          <CodeAreaCards>
+            {
+              Object.entries(folder['codeareas']).map(([codeareaId, codearea]) => (
+                <Card key={codeareaId} onClick={() => {
+                  navigate(`/codearea/${folderId}/${codeareaId}`)
+                }}>
+                  <CardContainer>
+                    <Logo src="icon.png" />
+                    <CardContent>
+                      <p>{codearea.title}</p>
+                      <p>Language: {codearea.language}</p>
+                    </CardContent>
+                  </CardContainer>
+                  <FolderIcons onClick={(e) => {
+                    e.stopPropagation(); //stop click propagation from child to parent
+                  }}>
+                    <IoTrashOutline onClick={() => deleteCard(folderId, codeareaId)} />
+                    <BiEditAlt onClick={() => openModal({
+                      show: true,
+                      modalType: 5,
+                      identifiers: {
+                        folderId: folderId,
+                        cardId: codeareaId,
+                      }
+                    })} />
+                  </FolderIcons>
+                </Card>
+              ))
+            }
+          </CodeAreaCards>
+        </FolderCard>
       ))
     }
-      
-    </StyledRightComponent>
+  </StyledRightComponent>
   );
 };
 

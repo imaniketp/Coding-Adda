@@ -1,44 +1,32 @@
-import React,{useContext} from "react";
-import { Header, Heading } from "../Modal";
+import React,{useContext, useState} from "react";
+import { Header,  CloseButton, Input} from "../Modal";
 import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { ModalContext } from "../../context/ModelContext";
+import { CodeAreaContext } from '../../context/CodeAreaContext'
 
-export const ModalArea = styled.div`
-  padding: 0 1rem;
-`
 
-const ModalInputs = styled.div`
-  display: flex;
-  input {
-    width: 15rem;
-    height: 2rem;
-  }
-`;
-
-const Button = styled.button`
-  background: black;
-  color: white;
-  height: 2rem;
-  margin: 0 0 0 2rem;
-  padding: 0.5rem 2rem;
-  border-radius: 2px;
-`;
 const NewFolder = () => {
+  const { closeModal } = useContext(ModalContext);
+  const { addFolder } = useContext(CodeAreaContext)
+  const [folderTitle, setFolderTitle] = useState("");
 
-const {setIsOpenModal} = useContext(ModalContext);
   return (
-    <ModalArea>
-      <IoCloseSharp style={{ float: "right" }} onClick={()=> setIsOpenModal(false)} />
+    <>
       <Header>
-        <Heading>Create New Folder</Heading>
+        <h2>Create New Folder</h2>
+        <CloseButton onClick={() => closeModal()}>
+          <IoCloseSharp />
+        </CloseButton>
       </Header>
-
-      <ModalInputs>
-        <input type="text" placeholder="Enter folder name" />
-        <Button>Create Folder</Button>
-      </ModalInputs>
-    </ModalArea>
+      <Input>
+        <input type="text" onChange={(e) => setFolderTitle(e.target.value)} />
+        <button onClick={() => {
+          addFolder(folderTitle)
+          closeModal()
+        }}>Create Folder</button>
+      </Input>
+    </>
   );
 };
 

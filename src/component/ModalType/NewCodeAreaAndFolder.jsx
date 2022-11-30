@@ -1,63 +1,78 @@
-import React, { useContext } from "react";
-import { Header, Heading } from "../Modal";
+import React, { useContext, useState } from "react";
+import { Header, CloseButton } from "../Modal";
 import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
-import { ModalArea } from "./NewFolder";
 import { ModalContext } from "../../context/ModelContext";
+import { CodeAreaContext } from "../../context/CodeAreaContext";
+import Select from 'react-select';
 
-const ModalInputs = styled.div`
-  
-  input {
-    margin: 1rem;
-    width: 15rem;
-    height: 2rem;
-    float: right;
-  }
-`;
-const InnerModal = styled.div`
-  display: flex;
+
+const InputWithSelect = styled.div`
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  row-gap: 1rem;
+  column-gap: 1rem;
+  margin-top: 1.2rem;
   align-items: center;
-`
-
-const Button = styled.button`
-float: right;
-background: black;
-color: white;
-height: 2rem;
-margin-right: 1rem;
-padding: 0.5rem 2rem;
-border-radius: 2px;
+  input {
+    flex-grow: 1;
+    height: 2rem;
+  }
+  button {
+    background: #241f21;
+    height: 2rem;
+    color: white;
+    padding: 0 2rem;
+  }
 `;
 
 const NewCodeAreaAndFolder = () => {
 
-const {setIsOpenModal} = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
+  const { addCodeareaAndFolder } = useContext(CodeAreaContext);
+
+  const languageOptions = [
+    { value: "cpp", label: "cpp" },
+    { value: "java", label: "java" },
+    { value: "javascript", label: "javascript" },
+    { value: "python", label: "python" },
+  ];
+
+  const [codeareaName, setCodeareaName] = useState("")
+  const [folderName, setFolderName] = useState("")
+  const [language, setLanguage] = useState(languageOptions[0]);
+
+  const handleLanguageChange = (selectedOption) => {
+    setLanguage(selectedOption);
+  };
 
   return (
-    <ModalArea>
-      <IoCloseSharp style={{ float: "right" }} onClick={()=> setIsOpenModal(false)} />
-      <Header>
-        <Heading>Create New Folder & CodeArea</Heading>
+    <>
+       <Header>
+        <h2>Create New CodeArea & Create New Folder</h2>
+        <CloseButton onClick={() => closeModal()}>
+          <IoCloseSharp />
+        </CloseButton>
       </Header>
+      <InputWithSelect>
+        <label>Enter Folder Name</label>
+        <input type='text' onChange={(e) => setFolderName(e.target.value)} />
 
-      <ModalInputs>
-        <InnerModal>
-          <label id="codearea">Enter CodeArea Name </label>
-          <input type="text" id="codearea" />
-        </InnerModal>
-        <InnerModal>
-          <label id="folder">Enter CodeArea Name </label>
-          <input type="text" id="folder" />
-        </InnerModal>
-      </ModalInputs>
-      <select style={{height: '2.5rem', width: '8rem'}}>
-        <option value="c++">C++</option>
-        <option value="javascript">JavaScript</option>
-        <option value="java">Java</option>
-        <option value="python">Python</option>
-      </select>
-      <Button>Create New Playground</Button>
-    </ModalArea>
+        <label>Enter Card Name</label>
+        <input type='text' onChange={(e) => setCodeareaName(e.target.value)} />
+
+        <Select
+          options={languageOptions}
+          value={language}
+          onChange={handleLanguageChange}
+        />
+
+        <button onClick={() => {
+          addCodeareaAndFolder(folderName, codeareaName, language.label)
+          closeModal();
+        }}> Create Codearea </button>
+      </InputWithSelect>
+    </>
   );
 };
 

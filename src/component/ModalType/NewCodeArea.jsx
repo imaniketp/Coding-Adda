@@ -1,50 +1,75 @@
-import React,{useContext} from "react";
-import { Header, Heading } from "../Modal";
+import React,{useContext, useState} from "react";
+import { Header, CloseButton } from "../Modal";
 import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
-import { ModalArea } from "./NewFolder";
 import { ModalContext } from "../../context/ModelContext";
+import { CodeAreaContext } from '../../context/CodeAreaContext'
+import Select from 'react-select';
 
-const ModalInputs = styled.div`
-  display: flex;
+const InputWithSelect = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  align-items: center;
   input {
-    width: 15rem;
+    flex-grow: 1;
     height: 2rem;
-    margin-right: 1rem;
+  }
+  button {
+    background: #241f21;
+    height: 2rem;
+    color: white;
+    padding: 0 2rem;
   }
 `;
 
-const Button = styled.button`
-  background: black;
-  color: white;
-  height: 2rem;
-  margin-top: 1rem;
-  padding: 0.5rem 2rem;
-  border-radius: 2px;
-`;
+
 
 const NewCodeArea = () => {
 
-const {setIsOpenModal} = useContext(ModalContext);
+  const { isOpenModal, closeModal } = useContext(ModalContext);
+  const { addCodearea } = useContext(CodeAreaContext);
+
+  const languageOptions = [
+    { value: "cpp", label: "cpp" },
+    { value: "java", label: "java" },
+    { value: "javascript", label: "javascript" },
+    { value: "python", label: "python" },
+  ];
+
+  const {folderId} = isOpenModal.identifiers;
+  const [cardTitle, setCardTitle] = useState("");
+  const [language, setLanguage] = useState(languageOptions[0]);
+
+  const handleLanguageChange = (selectedOption) => {
+    setLanguage(selectedOption);
+  };
 
   return (
-    <ModalArea>
-      <IoCloseSharp style={{ float: "right" }} onClick={()=> setIsOpenModal(false)} />
-
+    <>
       <Header>
-        <Heading>Create New CodeArea</Heading>
+        <h2>Create New CodeArea</h2>
+        <CloseButton onClick={() => closeModal()}>
+          <IoCloseSharp />
+        </CloseButton>
       </Header>
-      <ModalInputs>
-        <input type="text" placeholder="Create New CodeArea" />
-        <select>
-          <option value="c++">C++</option>
-          <option value="javascript">JavaScript</option>
-          <option value="java">Java</option>
-          <option value="python">Python</option>
-        </select>
-      </ModalInputs>
-      <Button>Create New CodeArea</Button>
-    </ModalArea>
+      <InputWithSelect>
+        <input
+          type='text'
+          onChange={(e) => setCardTitle(e.target.value)}
+        />
+        <Select
+          options={languageOptions}
+          value={language}
+          onChange={handleLanguageChange}
+        />
+        <button onClick={() => {
+          addCodearea(folderId, cardTitle, language.label)
+          closeModal();
+        }}> Create CodeArea </button>
+      </InputWithSelect>
+    </>
   );
 };
 

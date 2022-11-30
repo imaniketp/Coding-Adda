@@ -19,7 +19,7 @@ const {isOpenModal} = useContext(ModalContext);
     <StyledHome>
       <LeftComponent />
       <RightComponent />
-      { isOpenModal  && <Modal  />}
+      { isOpenModal.show  && <Modal  />}
     </StyledHome>
   )
 }

@@ -56,15 +56,22 @@ const AddPlayground = styled.button`
 
 const LeftComponent = () => {
 
-const {setModal} = useContext(ModalContext);
+const {openModal} = useContext(ModalContext);
 
   return (
     <StyledLeftComponent>
         <ContentContainer>
-            <Logo src='logo.png' alt='logo' />
+            <Logo src='icon.png' alt='logo' />
             <MainHeading> <span>Coding</span> Adda</MainHeading>
             <SubHeading>Code.Compile..Debug...</SubHeading>
-            <AddPlayground onClick={() => setModal(true, 3)} ><span>+</span> Create New CodeArea</AddPlayground>
+            <AddPlayground onClick={() => openModal({
+                show : true,
+                modalType : 3,
+                identifiers : {
+                    folderId : "",
+                    cardId : "",
+                }
+            })} ><span>+</span> Create New CodeArea</AddPlayground>
         </ContentContainer>
     </StyledLeftComponent>
   )
