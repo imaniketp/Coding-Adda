@@ -5,6 +5,8 @@ import { BiEditAlt } from "react-icons/bi";
 import { ModalContext } from "../../context/ModelContext";
 import {CodeAreaContext} from "../../context/CodeAreaContext";
 import { useNavigate } from 'react-router-dom'
+import icon from '../../assest/icon.png'
+
 
 const StyledRightComponent = styled.div`
   width: 60%;
@@ -145,7 +147,7 @@ const RightComponent = () => {
                   navigate(`/codearea/${folderId}/${codeareaId}`)
                 }}>
                   <CardContainer>
-                    <Logo src="icon.png" />
+                    <Logo src={icon} alt='logo' />
                     <CardContent>
                       <p>{codearea.title}</p>
                       <p>Language: {codearea.language}</p>

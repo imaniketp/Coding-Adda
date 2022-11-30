@@ -1,5 +1,6 @@
 import React,{useContext} from 'react'
 import styled from 'styled-components'
+import icon from '../../assest/icon.png'
 import { ModalContext } from '../../context/ModelContext'
 
 
@@ -61,7 +62,7 @@ const {openModal} = useContext(ModalContext);
   return (
     <StyledLeftComponent>
         <ContentContainer>
-            <Logo src='icon.png' alt='logo' />
+            <Logo src={icon} alt='logo' />
             <MainHeading> <span>Coding</span> Adda</MainHeading>
             <SubHeading>Code.Compile..Debug...</SubHeading>
             <AddPlayground onClick={() => openModal({

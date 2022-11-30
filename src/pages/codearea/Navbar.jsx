@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import icon from '../../assest/icon.png'
+
 const NavbarContainer = styled.div`
   height: 4.5rem;
   background: #241f21;
@@ -38,7 +40,7 @@ const Navbar = () => {
       <NavbarContent onClick={() => {
         navigate('/')
       }}>
-        <Logo src='logo.png' alt='logo' />
+        <Logo src={icon} alt='logo' />
         <MainHeading>
           <span>Coding</span> Adda
         </MainHeading>
